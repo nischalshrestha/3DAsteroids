@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Prog 2: Rasterization Shell</title>
+    <script type="text/javascript" src="gl-matrix.js"></script>
+    <script type="text/javascript" src="utils.js"></script>
+    <script type="text/javascript" src="sphere.js"></script>
+    <script type="text/javascript" src="rasterize.js"></script>
+    <script type="text/javascript" src="webgl-utils.js"></script>
+  </head>
+  <body onload="main();">
+    <canvas id="myWebGLCanvas" width="512" height="512"></canvas>
+    <p>Enter the width and height, then click "Submit" to resize the canvas:</p>
+    <form id="frm1" action="">
+      width: <input id="width" type="text"> (default: 512)<br>
+      height: <input id="height" type="text"> (default: 512)<br><br>
+      <input type="button" onclick="resizeCanvas()" value="Submit">
+    </form>
+    <div>
+      <p>Here are the commands:</p>
+      <ul>
+        <li><span style="font-style: italic">a and d</span> — Rotate left and right</li>
+        <li><span style="font-style: italic">w and s</span> — Rotate view forward and backward</li>
+        <li><span style="font-style: italic">k</span> — Shoot</li>
+      </ul>
+    </div>
+  </body>
+</html>
