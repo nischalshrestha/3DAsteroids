@@ -20,6 +20,22 @@ var inputSpheres = [
 {"x": 0.5, "y": -0.5, "z": -0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9}
 ];
 
+var missiles = [];
+var missile = [
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9},
+{"x": 0.5, "y": 0, "z": -0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [1,1,1], "specular": [0.3,0.3,0.3], "n":9}
+];
+var ammo = missiles.length;
+
 /* assignment specific globals */
 const WIN_Z = 0;  // default graphics window z coord in world space
 const WIN_LEFT = 0; const WIN_RIGHT = 1;  // default left and right x coords in world space
@@ -233,8 +249,161 @@ function setupShaders() {
 var mvMatrix = mat4.create();
 var pMatrix = mat4.create();
 
+function loadMissiles()
+{
+  // var inputTriangles = getJSONFile(INPUT_TRIANGLES_URL,"triangles");
+  // var inputSpheres = getJSONFile(INPUT_SPHERES_URL,"spheres");
+  var xyz = [0,0,0];
+  var rotate = [0,0,0];
+
+  // if(inputSpheres != String.null){
+    // var textureCoordData = [];
+    var latitudeBands = 30;
+    var longitudeBands = 30;
+    for(var s = 0; s < missile.length; s++){
+      // var xyz = new vec3.fromValues(0.5, 0.
+      console.log("distance: "+JSON.stringify(xyz));
+      var sCoordArray = [];
+      var sColorArray = [];
+      var sColorHighlightArray = [];
+      var sIndexArray = [];
+      var sNormalArray = [];
+      var sphereBufferSize = 0;
+      var sphere = missile[s];
+      var radius = sphere.r;
+      var coherence = sphere.n;
+      for (var latNumber = 0; latNumber <= latitudeBands; latNumber++) {
+        var theta = latNumber * Math.PI / latitudeBands;
+        var sinTheta = Math.sin(theta);
+        var cosTheta = Math.cos(theta);
+        for (var longNumber = 0; longNumber <= longitudeBands; longNumber++) {
+          var phi = longNumber * 2 * Math.PI / longitudeBands;
+          var sinPhi = Math.sin(phi);
+          var cosPhi = Math.cos(phi);
+          var x = cosPhi * sinTheta;
+          var y = cosTheta;
+          var z = sinPhi * sinTheta;
+          // var u = 1 - (longNumber / longitudeBands);
+          // var v = 1 - (latNumber / latitudeBands);
+          sNormalArray.push(x);
+          sNormalArray.push(y);
+          sNormalArray.push(z);
+          // textureCoordData.push(u);
+          // textureCoordData.push(v);
+          sCoordArray.push(sphere.x - radius * x);
+          sCoordArray.push(sphere.y - radius * y);
+          sCoordArray.push(sphere.z - radius * z);
+          // console.log(JSON.stringify([radius*x, radius*y, radius*z]));
+          sColorArray.push(sphere.diffuse[0], sphere.diffuse[1], sphere.diffuse[2], 1.0);
+          sColorHighlightArray.push(hDiffuse[0], hDiffuse[1], hDiffuse[2], 1.0);
+        }
+      }
+
+      for (var latNumber=0; latNumber < latitudeBands; latNumber++) {
+          for (var longNumber=0; longNumber < longitudeBands; longNumber++) {
+              var first = (latNumber * (longitudeBands + 1)) + longNumber;
+              var second = first + longitudeBands + 1;
+              sIndexArray.push(first);
+              sIndexArray.push(second);
+              sIndexArray.push(first + 1);
+              sIndexArray.push(second);
+              sIndexArray.push(second + 1);
+              sIndexArray.push(first + 1);
+              sphereBufferSize += 6;
+          }
+      }
+
+      // Sphere vertices
+      var spherePositionBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sCoordArray);
+      // Sphere indices
+      var sphereIndexBuffer = createBindBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, sIndexArray);;
+      // Sphere colors
+      var sphereColorBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sColorArray);
+      // Sphere highlight color
+      var sphereHighlightColorBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sColorHighlightArray);
+      // Sphere normals
+      var sphereNormalBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sNormalArray);
+
+      gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
+
+      var rotate = [0,0,0];
+      // Projection and View transforms
+      var newSphere = new Sphere(s, sphere.x, sphere.y, sphere.z, spherePositionBuffer, sphereIndexBuffer, sphereBufferSize, sphereNormalBuffer, sphereColorBuffer, sphereHighlightColorBuffer, AmbientR, SpecularR, coherence, false, mvMatrix, pMatrix, xyz, rotate);
+      newSphere.draw = function()
+      {
+        // Projection and View transforms
+        mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 100);
+        mat4.identity(mvMatrix)
+        mat4.lookAt(mvMatrix, Eye, Center, LookUp);
+
+        // Do global transformation then the local
+        var xyzTotal = new vec3.fromValues(this.xyz[0], this.xyz[1], this.xyz[2]);
+        mat4.translate(this.pMatrix, this.pMatrix, xyzTotal);
+        mat4.rotateX(pMatrix, pMatrix, rotateX);
+        mat4.rotateY(pMatrix, pMatrix, rotateY);
+        mat4.rotateZ(pMatrix, pMatrix, rotateZ);
+        this.mvMatrix = mvMatrix;
+        this.pMatrix = pMatrix;
+
+        // console.log(JSON.stringify(mvMatrix));
+        /* Vertex buffer: activate and feed into vertex shader */
+        // set the light direction.
+        gl.uniform4fv(shaderProgram.colorUniform, LightColor); // white light
+        // Set the color to use
+        gl.uniform3fv(shaderProgram.lightingDirectionUniform, LightLocation); // light location
+
+        // Set default or hightlighted ambient, specular, diffuse Rs
+        var amb = this.ambient;
+        var spec = this.specular;
+        if(this.highlighted){
+          amb = hAmbient;
+          spec = hSpecular;
+          gl.uniform1i(shaderProgram.useHighlightUniform, true);
+        } else{
+          gl.uniform1i(shaderProgram.useHighlightUniform, false);
+        }
+        // console.log("color diff: "+diff);
+        gl.uniform3fv(shaderProgram.ambientUniform, amb);
+        gl.uniform3fv(shaderProgram.specularUniform, spec);
+        // Set the specular coherence
+        gl.uniform1f(shaderProgram.specularCoherenceUniform, this.coherence);
+
+        // Position buffer
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 3, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
+
+        // Bind the color buffer.
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.colorBuffer);
+        // Tell the color attribute how to get data out of colorBuffer (ARRAY_BUFFER)
+        gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, 4, gl.FLOAT, false, 0, 0);
+
+        // Bind the color buffer.
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.highlightBuffer);
+        // Tell the color attribute how to get data out of colorBuffer (ARRAY_BUFFER)
+        gl.vertexAttribPointer(shaderProgram.vertexHighlightColorAttribute, 4, gl.FLOAT, false, 0, 0);
+
+        // Bind the normal buffer.
+        gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
+        gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, 3, gl.FLOAT, false, 0, 0); // feed
+
+        // Set the uniform vars for the projections and model-view
+        var normalMatrix = mat3.create();
+        setMatrixUniforms(this.mvMatrix, this.pMatrix, normalMatrix);
+
+        // Finally, draw the elements.
+        gl.uniform1i(shaderProgram.useTriangleUniform, false);
+        gl.drawElements(gl.TRIANGLES, this.bufferSize, gl.UNSIGNED_SHORT, 0); // render
+      };
+      missiles.push(newSphere);
+      ammo++;
+    }
+}
+
 // read triangles in, load them into webgl buffers
-function loadTriangles() {
+function loadTriangles()
+{
     // var inputTriangles = getJSONFile(INPUT_TRIANGLES_URL,"triangles");
     // var inputSpheres = getJSONFile(INPUT_SPHERES_URL,"spheres");
     var xyz = [0,0,0];
@@ -253,13 +422,11 @@ function loadTriangles() {
     2. Generate spheres along x, y, z axes that are some d offset from eye but isn't going to collide
     3. Randomize size of spheres from r = [0.08, 0.15]
     4. Randomize the axis chosen for the particular sphere (0-3 for front, behind, left, right, above, below)
-    5.
 
     Logic for meteors
 
     1. Move meteors each second towards eye according to whichever axis they're on
     2. When meteors get some distance d close to the eye, signal a warning by flashing a red triangle (alpha to 0.5)
-    3.
 
     **/
 
@@ -267,12 +434,12 @@ function loadTriangles() {
       // var textureCoordData = [];
       var latitudeBands = 30;
       var longitudeBands = 30;
-      var numSpheres = 2;
+      var numSpheres = 3;
       for(var s = 0; s < numSpheres; s++){
         var xyz = new vec3.fromValues(0.5, 0.5, -0.5);
         // Random xyz
-        // var direction = Math.round(getRandom(0, 6));
-        var direction = 0;
+        var direction = Math.round(getRandom(0, 6));
+        // var direction = 0;
         // var distance = getRandom(2, 5);
         var distance = 10;
         console.log("direction: "+direction);
@@ -463,6 +630,11 @@ function drawScene() {
     for(var s = 0; s < spheres.length; s++){
       spheres[s].draw();
     }
+    if(fire)
+    {
+      missiles[0].setXYZ(x, y, missileZ);
+      missiles[0].draw();
+    }
 } // end drawScene()
 
 /** These global vars will keep track of the global transformations **/
@@ -570,21 +742,43 @@ function handleKeys() {
     // console.log("go right");
     rotateY += Math.PI / deg;
   }
-  console.log("rot: "+rotateZ);
+
+  // Fire with k
+  if (String.fromCharCode(event.keyCode) == "K" && !event.shiftKey) {
+    // Fire missile
+    if(ammo > 0)
+    {
+      fire = true;
+      missileZ = 0;
+      ammo--;
+    } else {
+      fire = false;
+    }
+  }
+
+  // Load with k
+  if (String.fromCharCode(event.keyCode) == "L" && !event.shiftKey) {
+    // Reload
+    loadMissiles();
+  }
 
   drawScene();
 }
 
+var fire = false;
+var missileZ = 0;
 var lastTime = 0;
 
 function animate() {
     var timeNow = new Date().getTime();
     if (lastTime != 0) {
         var elapsed = timeNow - lastTime;
-        console.log("reset "+elapsed);
-
+        // console.log("reset "+elapsed);
         if(elapsed > 10){
           z += 0.01;
+          if(fire){
+            missileZ -= 1;
+          }
         }
     }
     lastTime = timeNow;
@@ -605,6 +799,7 @@ function main() {
   setupWebGL(); // set up the webGL environment
   setupShaders(); // setup the webGL shaders (attribs)
   loadTriangles(); // load in the triangles from tri file (buffers)
+  loadMissiles();
   drawScene(); // draw the triangles using webGL
   document.onkeydown = handleKeyDown;
   document.onkeyup = handleKeyUp;
