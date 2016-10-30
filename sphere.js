@@ -1,10 +1,13 @@
 // Sphere
 function Sphere(
-  id, positionBuffer, indexBuffer, bufferSize, normalBuffer, colorBuffer,
+  id, x, y, z, positionBuffer, indexBuffer, bufferSize, normalBuffer, colorBuffer,
   highlightBuffer, ambient, specular, coherence, highlighted, mvMatrix, pMatrix,
   xyz, rotate)
 {
   this.id = id;
+  this.x = x;
+  this.y = y;
+  this.z = z;
   this.positionBuffer = positionBuffer;
   this.indexBuffer = indexBuffer;
   this.bufferSize = bufferSize;

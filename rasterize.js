@@ -2,45 +2,28 @@
 
 // local copies of JSON files for testing (curently same as files from github)
 var inputSpheres = [
-{"x": 0.25, "y": 0.25, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.0,0.0], "specular": [0.3,0.3,0.3], "n":1},
-{"x": 0.25, "y": 0.75, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.0,0.6,0.0], "specular": [0.3,0.3,0.3], "n":3},
-{"x": 0.75, "y": 0.75, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.0,0.0,0.6], "specular": [0.3,0.3,0.3], "n":5},
-{"x": 0.75, "y": 0.25, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.0,0.6], "specular": [0.3,0.3,0.3], "n":7},
-{"x": 0.5, "y": 0.5, "z": 0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9}
-];
-
-var inputTriangles = [
-  {
-    "material": {"ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.4,0.4], "specular": [0.3,0.3,0.3], "n":11},
-    "vertices": [[0.15, 0.4, 0.75],[0.25, 0.6, 0.75],[0.35,0.4,0.75]],
-    "normals": [[0, 0, -1],[0, 0, -1],[0, 0, -1]],
-    "triangles": [[0,1,2]]
-  },
-  {
-    "material": {"ambient": [0.1,0.1,0.1], "diffuse": [0.4,0.6,0.4], "specular": [0.3,0.3,0.3], "n":13},
-    "vertices": [[0.4, 0.65, 0.75],[0.4, 0.85, 0.75],[0.6,0.85,0.75],[0.6,0.65,0.75]],
-    "normals": [[0, 0, -1],[0, 0, -1],[0, 0, -1],[0, 0, -1]],
-    "triangles": [[0,1,2],[2,3,0]]
-  },
-  {
-    "material": {"ambient": [0.1,0.1,0.1], "diffuse": [0.4,0.4,0.6], "specular": [0.3,0.3,0.3], "n":15},
-    "vertices": [[0.65, 0.4, 0.75],[0.75, 0.6, 0.75],[0.85,0.4,0.75]],
-    "normals": [[0, 0, -1],[0, 0, -1],[0, 0, -1]],
-    "triangles": [[0,1,2]]
-  },
-  {
-    "material": {"ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.4], "specular": [0.3,0.3,0.3], "n":17},
-    "vertices": [[0.4, 0.15, 0.75],[0.4, 0.35, 0.75],[0.6,0.35,0.75],[0.6,0.15,0.75]],
-    "normals": [[0, 0, -1],[0, 0, -1],[0, 0, -1],[0, 0, -1]],
-    "triangles": [[0,1,2],[2,3,0]]
-  }
+// {"x": 0.25, "y": 0.25, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.0,0.0], "specular": [0.3,0.3,0.3], "n":1},
+// {"x": 0.25, "y": 0.75, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.0,0.6,0.0], "specular": [0.3,0.3,0.3], "n":3},
+// {"x": 0.75, "y": 0.75, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.0,0.0,0.6], "specular": [0.3,0.3,0.3], "n":5},
+// {"x": 0.75, "y": 0.25, "z": 0.5, "r":0.1, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.0,0.6], "specular": [0.3,0.3,0.3], "n":7},
+// front
+{"x": 0.5, "y": 0.5, "z": 0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9},
+// behind
+{"x": 0.5, "y": 0.5, "z": -1.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9},
+// right
+{"x": 1.5, "y": 0.5, "z": -0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9},
+// left
+{"x": -0.5, "y": 0.5, "z": -0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9},
+// above
+{"x": 0.5, "y": 1.5, "z": -0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9},
+// below
+{"x": 0.5, "y": -0.5, "z": -0.5, "r":0.15, "ambient": [0.1,0.1,0.1], "diffuse": [0.6,0.6,0.0], "specular": [0.3,0.3,0.3], "n":9}
 ];
 
 /* assignment specific globals */
 const WIN_Z = 0;  // default graphics window z coord in world space
 const WIN_LEFT = 0; const WIN_RIGHT = 1;  // default left and right x coords in world space
 const WIN_BOTTOM = 0; const WIN_TOP = 1;  // default top and bottom y coords in world space
-const INPUT_TRIANGLES_URL = "https://ncsucgclass.github.io/prog2/triangles.json"; // triangles file loc
 const INPUT_SPHERES_URL = "https://ncsucgclass.github.io/prog2/spheres.json"; // spheres file loc
 
 /* Variables for the View, Light, and Reflectivity constants */
@@ -153,10 +136,10 @@ function setupShaders() {
             gl_FragColor = v_color;
 
             // Caculate the color using Blinn-Phong shading
-            gl_FragColor.rgb *=
-              u_ambient +
-              diffuseLightWeighting +
-              specularLightWeighting * u_specular;
+            // gl_FragColor.rgb *=
+            //   u_ambient +
+            //   diffuseLightWeighting +
+            //   specularLightWeighting * u_specular;
         }
     `;
 
@@ -247,6 +230,9 @@ function setupShaders() {
     } // end catch
 } // end setup shaders
 
+var mvMatrix = mat4.create();
+var pMatrix = mat4.create();
+
 // read triangles in, load them into webgl buffers
 function loadTriangles() {
     // var inputTriangles = getJSONFile(INPUT_TRIANGLES_URL,"triangles");
@@ -259,11 +245,62 @@ function loadTriangles() {
     // console.log("indices: "+indexArray.toString());
     // console.log("numindices: "+triBufferSize);
 
-    if(inputSpheres != String.null){
+    /**
+
+    Create meteors
+
+    1. Generate spheres along x, y, z axes that are some d offset from eye that will collide
+    2. Generate spheres along x, y, z axes that are some d offset from eye but isn't going to collide
+    3. Randomize size of spheres from r = [0.08, 0.15]
+    4. Randomize the axis chosen for the particular sphere (0-3 for front, behind, left, right, above, below)
+    5.
+
+    Logic for meteors
+
+    1. Move meteors each second towards eye according to whichever axis they're on
+    2. When meteors get some distance d close to the eye, signal a warning by flashing a red triangle (alpha to 0.5)
+    3.
+
+    **/
+
+    // if(inputSpheres != String.null){
       // var textureCoordData = [];
       var latitudeBands = 30;
       var longitudeBands = 30;
-      for(var s = 0; s < inputSpheres.length; s++){
+      var numSpheres = 1;
+      for(var s = 0; s < numSpheres; s++){
+        var xyz = new vec3.fromValues(0.5, 0.5, -0.5);
+        // Random xyz
+        var direction = Math.round(getRandom(0, 6));
+        // var distance = getRandom(2, 5);
+        var distance = 2;
+        console.log("direction: "+direction);
+        console.log("distance: "+distance);
+        switch (direction) {
+          case states.FRONT:
+            // hitable
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, -1));
+            // unhitable
+            break;
+          case states.BEHIND:
+            // hitable
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+            // unhitable
+            break;
+          case states.LEFT:
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+            break;
+          case states.RIGHT:
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+            break;
+          case states.ABOVE:
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+            break;
+          case states.BELOW:
+            break;
+          default:
+            console.log("unknown state!");
+        }
         var sCoordArray = [];
         var sColorArray = [];
         var sColorHighlightArray = [];
@@ -315,35 +352,22 @@ function loadTriangles() {
         }
 
         // Sphere vertices
-        var spherePositionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, spherePositionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(sCoordArray), gl.STATIC_DRAW);
-
+        var spherePositionBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sCoordArray);
         // Sphere indices
-        var sphereIndexBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, sphereIndexBuffer);
-        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(sIndexArray), gl.STATIC_DRAW);
-
-        var sphereColorBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, sphereColorBuffer); // activate that buffer
-        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(sColorArray),gl.STATIC_DRAW); // values to that buffer
-        // console.log(sColorArray);
-
-        var sphereHighlightColorBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, sphereHighlightColorBuffer); // activate that buffer
-        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(sColorHighlightArray),gl.STATIC_DRAW); // values to that buffer
-
-        var sphereNormalBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, sphereNormalBuffer); // activate that buffer
-        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(sNormalArray),gl.STATIC_DRAW); // values to that buffer
+        var sphereIndexBuffer = createBindBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, sIndexArray);;
+        // Sphere colors
+        var sphereColorBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sColorArray);
+        // Sphere highlight color
+        var sphereHighlightColorBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sColorHighlightArray);
+        // Sphere normals
+        var sphereNormalBuffer = createBindBuffer(gl, gl.ARRAY_BUFFER, sNormalArray);
 
         gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
-        var mvMatrix = mat4.create();
-        var pMatrix = mat4.create();
+
         var rotate = [0,0,0];
         // Projection and View transforms
-        var newSphere = new Sphere(s, spherePositionBuffer, sphereIndexBuffer, sphereBufferSize, sphereNormalBuffer, sphereColorBuffer, sphereHighlightColorBuffer, AmbientR, SpecularR, coherence, false, mvMatrix, pMatrix, xyz, rotate);
+        var newSphere = new Sphere(s, sphere.x, sphere.y, sphere.z, spherePositionBuffer, sphereIndexBuffer, sphereBufferSize, sphereNormalBuffer, sphereColorBuffer, sphereHighlightColorBuffer, AmbientR, SpecularR, coherence, false, mvMatrix, pMatrix, xyz, rotate);
         newSphere.draw = function()
         {
           // Projection and View transforms
@@ -353,10 +377,10 @@ function loadTriangles() {
 
           // Do global transformation then the local
           var xyzTotal = new vec3.fromValues(this.xyz[0], this.xyz[1], this.xyz[2]);
-          mat4.translate(this.pMatrix, pMatrix, xyzTotal);
-          mat4.rotateX(this.pMatrix, this.pMatrix, this.rotate[0]);
-          mat4.rotateY(this.pMatrix, this.pMatrix, this.rotate[1]);
-          mat4.rotateZ(this.pMatrix, this.pMatrix, this.rotate[2]);
+          mat4.translate(this.pMatrix, this.pMatrix, xyzTotal);
+          mat4.rotateX(pMatrix, pMatrix, rotateX);
+          mat4.rotateY(pMatrix, pMatrix, rotateY);
+          mat4.rotateZ(pMatrix, pMatrix, rotateZ);
           this.mvMatrix = mvMatrix;
           this.pMatrix = pMatrix;
 
@@ -412,7 +436,7 @@ function loadTriangles() {
         };
         spheres.push(newSphere);
       } // end spheres for
-    } // end spheres found
+    // } // end spheres found
 
 } // end load triangles
 
@@ -423,7 +447,7 @@ function drawScene() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); // clear frame/depth buffers
     for(var s = 0; s < spheres.length; s++){
       spheres[s].setXYZ(x, y, z);
-      spheres[s].setRotate(rotateX, rotateY, rotateZ);
+      // spheres[s].setRotate(rotateX, rotateY, rotateZ);
     }
     for(var s = 0; s < spheres.length; s++){
       spheres[s].draw();
@@ -507,52 +531,35 @@ function handleKeys() {
     sphereSelected = true;
   }
 
-  // Space to deselect and turn off highlight
-  if (event.keyCode == 32) {
-    sphereSelected = false;
-    unselect = true;
-    // resetLocalVars();
-    resetSpheres();
-  }
-
-  // Reset on ESC
-  if (event.keyCode == 27) {
-    resetView = true;
-  }
-
-  var object;
-
   // Backspace
   if(event.keyCode == 8){
-    // resetLocalVars();
-    for(var s = 0; s < spheres.length; s++){
-      object = spheres[s];
-      object.setXYZ(0, 0, 0);
-      object.setRotate(0, 0, 0);
-      object.setHighlighted(false);
-    }
+  // resetLocalVars();
     console.log("reset");
   }
 
   /** DEFAULT BEHAVIOR (no selection) **/
   if (String.fromCharCode(event.keyCode) == "W" && !event.shiftKey) {
     // Rotate forward on x
-    console.log("here");
+    // console.log("tilt backward");
     rotateX -= Math.PI / 12;
   }
   if (String.fromCharCode(event.keyCode) == "S" && !event.shiftKey) {
     // Go forward along x
+    // console.log("tilt forward");
     rotateX += Math.PI / 12;
   }
 
   if (String.fromCharCode(event.keyCode) == "A" && !event.shiftKey) {
     // Rotate left along y
+    // console.log("go left");
     rotateY -= Math.PI / 12;
   }
   if (String.fromCharCode(event.keyCode) == "D" && !event.shiftKey) {
     // Rotate right along y
+    // console.log("go right");
     rotateY += Math.PI / 12;
   }
+  console.log("rot: "+rotateZ);
 
   drawScene();
 }
@@ -588,5 +595,5 @@ function main() {
   drawScene(); // draw the triangles using webGL
   document.onkeydown = handleKeyDown;
   document.onkeyup = handleKeyUp;
-  // tick();
+  tick();
 } // end main
