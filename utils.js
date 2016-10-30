@@ -34,6 +34,8 @@ function createBindBuffer(gl, bufferType, array)
   return buffer;
 }
 
+
+
 // Ray object that holds the origin (eye/camera) and the direction
 // var Ray = function(origin, direction) {
 //   this.origin = origin;
@@ -58,6 +60,12 @@ function createBindBuffer(gl, bufferType, array)
 //     }
 //     return -1.0;
 // }
+
+// Subtract vector a and b
+function multiplyConstant(a, b)
+{
+  return { x: a.x*b, y: a.y*b, z: a.z*b};
+}
 
 // Returns a random number between min (inclusive) and max (exclusive)
 function getRandom(min, max)

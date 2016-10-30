@@ -267,40 +267,51 @@ function loadTriangles() {
       // var textureCoordData = [];
       var latitudeBands = 30;
       var longitudeBands = 30;
-      var numSpheres = 1;
+      var numSpheres = 2;
       for(var s = 0; s < numSpheres; s++){
         var xyz = new vec3.fromValues(0.5, 0.5, -0.5);
         // Random xyz
-        var direction = Math.round(getRandom(0, 6));
+        // var direction = Math.round(getRandom(0, 6));
+        var direction = 0;
         // var distance = getRandom(2, 5);
-        var distance = 2;
+        var distance = 10;
         console.log("direction: "+direction);
         console.log("distance: "+distance);
         switch (direction) {
           case states.FRONT:
-            // hitable
-            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, -1));
-            // unhitable
+            // hitable (concerns z)
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, -1*distance*(s+1)));
+            // unhitable (offset the x or y)
+            // vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, -1));
             break;
           case states.BEHIND:
-            // hitable
-            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
-            // unhitable
-            break;
-          case states.LEFT:
-            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+            // hitable (concerns z)
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1*distance*(s+1)));
+            // unhitable (offset the x or y)
+            // vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
             break;
           case states.RIGHT:
-            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+          // hitable (min val for x < -1.0)
+            vec3.multiply(xyz, xyz, vec3.fromValues(-1*distance*(s+1), 1, 1));
+            // unhitable (offset the x or y)
+            // vec3.multiply(xyz, xyz, vec3.fromValues(-1, 1, 1));
+            break;
+          case states.LEFT:
+          // hitable (min val for x > 1.0)
+            vec3.multiply(xyz, xyz, vec3.fromValues(1*distance*(s+1), 1, 1));
+          // unhitable (min val for x > 1.0)
             break;
           case states.ABOVE:
-            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1, 1));
+          // hitable (min val for y > 1.0)
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, 1*distance*(s+1), 1));
             break;
           case states.BELOW:
+            vec3.multiply(xyz, xyz, vec3.fromValues(1, -1*distance*(s+1), 1));
             break;
           default:
             console.log("unknown state!");
         }
+        console.log("distance: "+JSON.stringify(xyz));
         var sCoordArray = [];
         var sColorArray = [];
         var sColorHighlightArray = [];
@@ -328,9 +339,9 @@ function loadTriangles() {
             sNormalArray.push(z);
             // textureCoordData.push(u);
             // textureCoordData.push(v);
-            sCoordArray.push(sphere.x - radius * x);
-            sCoordArray.push(sphere.y - radius * y);
-            sCoordArray.push(sphere.z - radius * z);
+            sCoordArray.push(xyz[0] - radius * x);
+            sCoordArray.push(xyz[1] - radius * y);
+            sCoordArray.push(xyz[2] - radius * z);
             // console.log(JSON.stringify([radius*x, radius*y, radius*z]));
             sColorArray.push(sphere.diffuse[0], sphere.diffuse[1], sphere.diffuse[2], 1.0);
             sColorHighlightArray.push(hDiffuse[0], hDiffuse[1], hDiffuse[2], 1.0);
@@ -536,28 +547,28 @@ function handleKeys() {
   // resetLocalVars();
     console.log("reset");
   }
-
+  var deg = 2;
   /** DEFAULT BEHAVIOR (no selection) **/
   if (String.fromCharCode(event.keyCode) == "W" && !event.shiftKey) {
     // Rotate forward on x
     // console.log("tilt backward");
-    rotateX -= Math.PI / 12;
+    rotateX -= Math.PI / deg;
   }
   if (String.fromCharCode(event.keyCode) == "S" && !event.shiftKey) {
     // Go forward along x
     // console.log("tilt forward");
-    rotateX += Math.PI / 12;
+    rotateX += Math.PI / deg;
   }
 
   if (String.fromCharCode(event.keyCode) == "A" && !event.shiftKey) {
     // Rotate left along y
     // console.log("go left");
-    rotateY -= Math.PI / 12;
+    rotateY -= Math.PI / deg;
   }
   if (String.fromCharCode(event.keyCode) == "D" && !event.shiftKey) {
     // Rotate right along y
     // console.log("go right");
-    rotateY += Math.PI / 12;
+    rotateY += Math.PI / deg;
   }
   console.log("rot: "+rotateZ);
 
@@ -570,8 +581,10 @@ function animate() {
     var timeNow = new Date().getTime();
     if (lastTime != 0) {
         var elapsed = timeNow - lastTime;
-        if(elapsed >= 1){
-          z += 0.001;
+        console.log("reset "+elapsed);
+
+        if(elapsed > 10){
+          z += 0.01;
         }
     }
     lastTime = timeNow;
