@@ -719,7 +719,7 @@ function handleKeys() {
   // resetLocalVars();
     console.log("reset");
   }
-  var deg = 2;
+  var deg = 12;
   /** DEFAULT BEHAVIOR (no selection) **/
   if (String.fromCharCode(event.keyCode) == "W" && !event.shiftKey) {
     // Rotate forward on x
